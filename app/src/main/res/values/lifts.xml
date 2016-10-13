@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <array name="compound">
+        <item>Press</item>
+        <item>Dead</item>
+        <item>Bench</item>
+        <item>Squat</item>
+    </array>
+
+    <array name="compoundDrawables">
+        <item>@drawable/press</item>
+        <item>@drawable/dead</item>
+        <item>@drawable/bench</item>
+        <item>@drawable/squat</item>
+    </array>
+
+</resources>

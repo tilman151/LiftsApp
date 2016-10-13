@@ -1,0 +1,16 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">#37474f</item>
+        <!-- Light Indigo -->
+        <item name="colorPrimaryDark">#263238</item>
+        <!-- Dark Indigo -->
+        <item name="colorAccent">#ff5252</item>
+        <!-- Blue -->
+        <item name="android:textColorHint">#ffffff</item>
+        <item name="android:colorControlNormal">#ffffff</item>
+    </style>
+
+</resources>

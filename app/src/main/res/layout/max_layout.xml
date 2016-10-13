@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+    <FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/maxFrame"
+        android:layout_width="match_parent"
+        android:layout_height="100dp">
+
+        <ImageView
+            android:id="@+id/maxImage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/tint"
+            android:scaleType="centerCrop"
+            android:layout_gravity="center"
+            android:tint="@color/tint"
+            android:tintMode="multiply"/>
+
+        <TextView
+            android:text="Overhead Press"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/maxLabel"
+            android:layout_gravity="top"
+            android:textAppearance="@android:style/TextAppearance.Material.Medium.Inverse"
+            android:textColor="@color/white"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:paddingLeft="16dp"
+            android:paddingTop="16dp"/>
+
+        <android.support.v7.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/maxWeight"
+                android:layout_width="70dp"
+                android:layout_height="wrap_content">
+
+                <android.support.design.widget.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Weight"
+                    android:gravity="center_horizontal"
+                    android:inputType="number"
+                    android:textAppearance="@android:style/TextAppearance.Material.Medium.Inverse"
+                    android:textColor="@android:color/white"
+                    android:imeOptions="actionNext"/>
+            </android.support.design.widget.TextInputLayout>
+
+            <TextView
+                android:text="x"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/maxX"
+                android:textAppearance="@android:style/TextAppearance.Material.Medium.Inverse"
+                android:textStyle="normal|bold" />
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/maxReps"
+                android:layout_width="70dp"
+                android:layout_height="wrap_content">
+
+                <android.support.design.widget.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Reps"
+                    android:gravity="center_horizontal"
+                    android:inputType="number"
+                    android:textColor="@android:color/white"
+                    android:imeOptions="actionDone"/>
+
+            </android.support.design.widget.TextInputLayout>
+
+        </android.support.v7.widget.LinearLayoutCompat>
+
+    </FrameLayout>
