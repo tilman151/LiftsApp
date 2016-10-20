@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.NavUtils;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -18,7 +19,6 @@ import android.view.View;
 
 public class MaxesActivity extends AppCompatActivity {
 
-    private DrawerLayout mDrawerLayout;
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
     private RecyclerView.Adapter mAdapter;
@@ -27,10 +27,6 @@ public class MaxesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maxes);
-
-        // Create Navigation drawer and inflate layout
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer);
 
         // Find RecyclerView
         mRecyclerView = (RecyclerView) findViewById(R.id.inputMaxesRecycler);
@@ -60,28 +56,12 @@ public class MaxesActivity extends AppCompatActivity {
         // Adding menu icon to Toolbar
         ActionBar supportActionBar = getSupportActionBar();
         if (supportActionBar != null) {
-            supportActionBar.setHomeAsUpIndicator(R.drawable.ic_menu_white_24px);
+            supportActionBar.setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24px);
             supportActionBar.setDisplayHomeAsUpEnabled(true);
+            supportActionBar.setTitle("Maxes");
         }
 
-        // Set behavior of Navigation drawer
-        navigationView.setNavigationItemSelectedListener(
-                new NavigationView.OnNavigationItemSelectedListener() {
-                    // This method will trigger on item Click of navigation menu
-                    @Override
-                    public boolean onNavigationItemSelected(MenuItem menuItem) {
-                        // Set item in checked state
-                        menuItem.setChecked(true);
-                        if (menuItem.getItemId() == R.id.home_nav){
-                        Intent intent = new Intent(getBaseContext(), StartScreen.class);
-                        startActivity(intent);
-                        }
-                        // Closing drawer on item click
-                        mDrawerLayout.closeDrawers();
-                        return true;
-                    }
-                });
-
+        // Set Fab behavior
         FloatingActionButton fab = (FloatingActionButton) this.findViewById(R.id.maxesFab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,7 +81,8 @@ public class MaxesActivity extends AppCompatActivity {
         int id = item.getItemId();
         //noinspection SimplifiableIfStatement
         if (id == android.R.id.home) {
-            mDrawerLayout.openDrawer(GravityCompat.START);
+            NavUtils.navigateUpFromSameTask(this);
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }

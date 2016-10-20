@@ -23,7 +23,7 @@ import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
 
-public class StartScreen extends AppCompatActivity implements TileContentFragment.OnFragmentInteractionListener {
+public class StartScreen extends AppCompatActivity {
 
     private DrawerLayout mDrawerLayout;
     private RecyclerView mRecyclerView;
@@ -49,7 +49,7 @@ public class StartScreen extends AppCompatActivity implements TileContentFragmen
         // in content do not change the layout size of the RecyclerView
         mRecyclerView.setHasFixedSize(true);
 
-        // use a linear layout manager
+        // use a grid layout manager
         mLayoutManager = new GridLayoutManager(this, 2);
         int tilePadding = getResources().getDimensionPixelSize(R.dimen.tile_padding);
         mRecyclerView.setPadding(tilePadding, tilePadding, tilePadding, tilePadding);
@@ -130,10 +130,5 @@ public class StartScreen extends AppCompatActivity implements TileContentFragmen
             mDrawerLayout.openDrawer(GravityCompat.START);
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onTileFragmentInteraction(Uri uri) {
-
     }
 }

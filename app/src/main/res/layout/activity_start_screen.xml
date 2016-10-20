@@ -56,7 +56,9 @@
                 android:layout_marginTop="@dimen/md_keylines"
                 android:layout_width="match_parent"
                 card_view:cardCornerRadius="2dp"
-                android:layout_weight="0">
+                android:background="@color/colorPrimary"
+                android:layout_weight="0"
+                card_view:cardBackgroundColor="?attr/colorPrimary">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -80,7 +82,8 @@
                         android:layout_below="@id/nextWorkoutImg"
                         android:layout_marginLeft="16dp"
                         android:layout_marginRight="16dp"
-                        android:layout_marginTop="24dp"/>
+                        android:layout_marginTop="24dp"
+                        android:textColor="@color/white" />
 
                     <TextView
                         android:text="@string/week"
@@ -90,7 +93,8 @@
                         android:textAppearance="@android:style/TextAppearance.Material.Subhead"
                         android:layout_weight="0"
                         android:layout_below="@+id/nextWorkoutLabel"
-                        android:layout_marginLeft="16dp"/>
+                        android:layout_marginLeft="16dp"
+                        android:textColor="@color/white" />
 
                     <TextView
                         android:text="0"
@@ -101,7 +105,8 @@
                         android:layout_weight="1"
                         android:textAppearance="@android:style/TextAppearance.Material.Subhead"
                         android:layout_below="@+id/nextWorkoutLabel"
-                        android:layout_toEndOf="@+id/weekLabel" />
+                        android:layout_toEndOf="@+id/weekLabel"
+                        android:textColor="@color/white" />
 
                     <ImageButton
                         android:layout_width="@dimen/cards_button_width"
@@ -112,7 +117,8 @@
                         android:layout_gravity="right"
                         style="@style/Base.Widget.AppCompat.Button.Borderless"
                         android:layout_below="@id/nextWorkoutLabel"
-                        android:layout_alignParentRight="true"/>
+                        android:layout_alignParentRight="true"
+                        android:tint="@color/white" />
 
                     <TextView
                         android:text="TextView"
@@ -134,7 +140,8 @@
                 android:id="@+id/maxesRecycler"
                 android:layout_marginLeft="4dp"
                 android:layout_marginRight="4dp"
-                android:layout_marginBottom="@dimen/md_keylines">
+                android:layout_marginBottom="@dimen/md_keylines"
+                tools:listitem="@layout/fragment_tile_content">
 
             </android.support.v7.widget.RecyclerView>
 
