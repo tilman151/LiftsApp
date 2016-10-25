@@ -16,11 +16,16 @@
             </intent-filter>
         </activity>
         <activity android:name=".MaxesActivity">
-            <meta-data android:name="android.support.PARENT_ACTIVITY" android:value=".StartScreen"/>
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".StartScreen" />
         </activity>
         <activity android:name=".WorkoutActivity">
-            <meta-data android:name="android.support.PARENT_ACTIVITY" android:value=".StartScreen"/>
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".StartScreen" />
         </activity>
+        <activity android:name=".LiftActivity"></activity>
     </application>
 
 </manifest>

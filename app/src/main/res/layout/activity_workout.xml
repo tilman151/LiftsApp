@@ -34,6 +34,7 @@
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:animateLayoutChanges="true"
             tools:listitem="@layout/workout_layout">
 
 
