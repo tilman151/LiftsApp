@@ -3,6 +3,7 @@ package krok.lifts;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
+import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -56,6 +57,11 @@ public class LiftActivity extends AppCompatActivity implements ProgressNotifier 
         // Adding Toolbar to Main screen
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        // Disable Scrolling Toolbar
+        AppBarLayout.LayoutParams p = (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
+        p.setScrollFlags(0);
+        toolbar.setLayoutParams(p);
 
         // Adding menu icon to Toolbar
         ActionBar supportActionBar = getSupportActionBar();

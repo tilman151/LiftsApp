@@ -25,11 +25,16 @@
 
     </android.support.design.widget.AppBarLayout>
 
+    <android.support.v7.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            android:background="@color/colorPrimary">
 
             <ImageView
                 android:id="@+id/liftImage"
@@ -73,17 +78,18 @@
                 android:indeterminate="false"
                 android:max="100"
                 android:progress="50" />
+        </RelativeLayout>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/setRecycler"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="100dp"
                 android:layout_below="@id/liftImage"
-                tools:listitem="@layout/set_layout">
+                tools:listitem="@layout/set_layout"
+                android:layout_weight="1">
 
             </android.support.v7.widget.RecyclerView>
 
-        </RelativeLayout>
-
+    </android.support.v7.widget.LinearLayoutCompat>
 
 </android.support.design.widget.CoordinatorLayout>
