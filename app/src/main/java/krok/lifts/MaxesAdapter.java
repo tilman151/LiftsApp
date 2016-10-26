@@ -1,6 +1,7 @@
 package krok.lifts;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
@@ -55,11 +56,19 @@ public class MaxesAdapter extends android.support.v7.widget.RecyclerView.Adapter
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, final int position) {
         holder.mTextView.setText(mLifts[position % mLifts.length]);
         int max = 100 - position;
         holder.mMaxText.setText(Integer.toString(max) + "kg");
         holder.mImageView.setImageDrawable(mImages[position % mImages.length]);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), CompoundAnalysisActivity.class);
+                intent.putExtra("Lift", mLifts[position % mLifts.length]);
+                v.getContext().startActivity(intent);
+            }
+        });
     }
 
     @Override
