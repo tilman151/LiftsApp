@@ -3,6 +3,7 @@ package krok.lifts;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.support.annotation.ColorRes;
+import android.support.v4.app.NavUtils;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +13,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
+import android.view.MenuItem;
 import android.widget.ProgressBar;
 
 import com.jjoe64.graphview.GraphView;
@@ -75,5 +77,19 @@ public class CompoundAnalysisActivity extends AppCompatActivity {
         // specify an adapter
         mAdapter = new CompoundAdapter(mCompoundRecycler.getContext(), new int[1][2]);
         mCompoundRecycler.setAdapter(mAdapter);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+        //noinspection SimplifiableIfStatement
+        if (id == android.R.id.home) {
+            NavUtils.navigateUpFromSameTask(this);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

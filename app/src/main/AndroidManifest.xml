@@ -25,8 +25,16 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".StartScreen" />
         </activity>
-        <activity android:name=".LiftActivity" />
-        <activity android:name=".CompoundAnalysisActivity"></activity>
+        <activity android:name=".LiftActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".WorkoutActivity" />
+        </activity>
+        <activity android:name=".CompoundAnalysisActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".StartScreen" />
+        </activity>
     </application>
 
 </manifest>
