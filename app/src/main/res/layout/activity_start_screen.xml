@@ -129,6 +129,7 @@
                         android:paddingLeft="16dp"
                         android:paddingBottom="16dp"
                         android:id="@+id/detailView"
+                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium.Inverse"
                         android:visibility="gone"/>
 
                 </RelativeLayout>
