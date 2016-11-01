@@ -132,11 +132,6 @@ public class StartScreen extends AppCompatActivity {
             }
         });
 
-        Log.d("Lifts", LiftsDbHelper.SQL_CREATE_LIFTS);
-        Log.d("Cycles", LiftsDbHelper.SQL_CREATE_CYCLES);
-        Log.d("Maxes", LiftsDbHelper.SQL_CREATE_MAXES);
-        Log.d("Workouts", LiftsDbHelper.SQL_CREATE_WORKOUTS);
-        Log.d("Sets", LiftsDbHelper.SQL_CREATE_SETS);
     }
 
     @Override
@@ -145,10 +140,8 @@ public class StartScreen extends AppCompatActivity {
 
         if (mPrefs.getBoolean("firstRun", true)) {
             new CreateDatabaseTask().execute(LiftsDbHelper.getInstance(this.getBaseContext()));
-            mPrefs.edit().putBoolean("firstRun", false).commit();
+            mPrefs.edit().putBoolean("firstRun", false).apply();
         }
-
-        LiftsDbHelper.getInstance(getBaseContext()).openDataBase();
     }
 
     @Override

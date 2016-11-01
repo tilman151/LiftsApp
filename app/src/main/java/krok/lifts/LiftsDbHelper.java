@@ -1,6 +1,7 @@
 package krok.lifts;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
@@ -69,7 +70,6 @@ public class LiftsDbHelper extends SQLiteOpenHelper {
                     "FOREIGN KEY(" + LiftsContract.Cycles.COLLUMN_NAME_BENCH + ") REFERENCES " + LiftsContract.Maxes.TABLE_NAME + "(" + LiftsContract.Maxes._ID + ")," +
                     "FOREIGN KEY(" + LiftsContract.Cycles.COLLUMN_NAME_SQUAT + ") REFERENCES " + LiftsContract.Maxes.TABLE_NAME + "(" + LiftsContract.Maxes._ID + " ) )";
 
-    private SQLiteDatabase mDb;
     private final Context mContext;
 
     private LiftsDbHelper(Context context) {
@@ -101,28 +101,8 @@ public class LiftsDbHelper extends SQLiteOpenHelper {
         }
     }
 
-    public void openDataBase() throws SQLException {
-        String path = DATABASE_PATH + DATABASE_NAME;
-        mDb = SQLiteDatabase.openDatabase(path, null, SQLiteDatabase.OPEN_READWRITE);
-    }
-
-    @Override
-    public synchronized void close() {
-        if (mDb != null)
-            mDb.close();
-
-        super.close();
-    }
-
     private boolean existsDataBase() {
         SQLiteDatabase db = null;
-
-//        try {
-//            String dbPath = DATABASE_PATH + DATABASE_NAME;
-//            db = SQLiteDatabase.openDatabase(dbPath, null, SQLiteDatabase.OPEN_READONLY);
-//        } catch (SQLiteException e) {
-//            Log.d("DATABASE: ", "checkDataBase: DB does not exist");
-//        }
 
         File file = new File(DATABASE_PATH + DATABASE_NAME);
         if (!file.exists()) {
@@ -130,12 +110,6 @@ public class LiftsDbHelper extends SQLiteOpenHelper {
             return false;
         }
         return true;
-
-//        if (db != null) {
-//            db.close();
-//        }
-//
-//        return db != null ? true : false;
     }
 
     private void copyDataBase() throws IOException {
