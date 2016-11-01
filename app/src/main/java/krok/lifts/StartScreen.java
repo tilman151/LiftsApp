@@ -1,7 +1,11 @@
 package krok.lifts;
 
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -14,6 +18,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.transition.AutoTransition;
 import android.transition.TransitionManager;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +28,11 @@ import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
 
+import java.io.IOException;
+
 public class StartScreen extends AppCompatActivity {
+
+    SharedPreferences mPrefs;
 
     private DrawerLayout mDrawerLayout;
     private RecyclerView mRecyclerView;
@@ -34,6 +43,9 @@ public class StartScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start_screen);
+
+        // Get shared preferences
+        mPrefs = getSharedPreferences("com.krok.lifts", MODE_PRIVATE);
 
         // Create Navigation drawer and inflate layout
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -119,6 +131,24 @@ public class StartScreen extends AppCompatActivity {
                 }
             }
         });
+
+        Log.d("Lifts", LiftsDbHelper.SQL_CREATE_LIFTS);
+        Log.d("Cycles", LiftsDbHelper.SQL_CREATE_CYCLES);
+        Log.d("Maxes", LiftsDbHelper.SQL_CREATE_MAXES);
+        Log.d("Workouts", LiftsDbHelper.SQL_CREATE_WORKOUTS);
+        Log.d("Sets", LiftsDbHelper.SQL_CREATE_SETS);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if (mPrefs.getBoolean("firstRun", true)) {
+            new CreateDatabaseTask().execute(LiftsDbHelper.getInstance(this.getBaseContext()));
+            mPrefs.edit().putBoolean("firstRun", false).commit();
+        }
+
+        LiftsDbHelper.getInstance(getBaseContext()).openDataBase();
     }
 
     @Override
@@ -132,5 +162,35 @@ public class StartScreen extends AppCompatActivity {
             mDrawerLayout.openDrawer(GravityCompat.START);
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private class CreateDatabaseTask extends AsyncTask<LiftsDbHelper, Integer, Boolean> {
+
+        private Dialog dialog = new ProgressDialog(StartScreen.this);
+
+        @Override
+        protected void onPreExecute() {
+            this.dialog.setTitle("Preparing for first run...");
+            this.dialog.show();
+        }
+
+        @Override
+        protected Boolean doInBackground(LiftsDbHelper... helper) {
+            try {
+                helper[0].createDataBase();
+            } catch (IOException e) {
+                throw new Error("First run: Unable to create database");
+            }
+
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            if (this.dialog.isShowing()) {
+                this.dialog.dismiss();
+            }
+        }
+
     }
 }
