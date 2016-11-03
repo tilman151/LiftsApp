@@ -2,6 +2,7 @@ package krok.lifts;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -11,6 +12,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -26,6 +28,10 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.appindexing.Thing;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
@@ -38,6 +44,11 @@ public class StartScreen extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
     private RecyclerView.Adapter mAdapter;
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    private GoogleApiClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +57,11 @@ public class StartScreen extends AppCompatActivity {
 
         // Get shared preferences
         mPrefs = getSharedPreferences("com.krok.lifts", MODE_PRIVATE);
+
+        if (mPrefs.getBoolean("firstRun", true)) {
+            new CreateDatabaseTask().execute(LiftsDbHelper.getInstance(this.getBaseContext()));
+            mPrefs.edit().putBoolean("firstRun", false).apply();
+        }
 
         // Create Navigation drawer and inflate layout
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -67,10 +83,12 @@ public class StartScreen extends AppCompatActivity {
         mRecyclerView.setPadding(tilePadding, tilePadding, tilePadding, tilePadding);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        // specify an adapter (see also next example)
-        mAdapter = new MaxesAdapter(mRecyclerView.getContext());
+        // specify an adapter
+        mAdapter = new MaxesAdapter(mRecyclerView.getContext(), null);
         mRecyclerView.setAdapter(mAdapter);
 
+        // Retrieve maxes asyncronous
+        new GetMaxesTask().execute(LiftsDbHelper.getInstance(getBaseContext()));
 
         // Adding Toolbar to Main screen
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -93,7 +111,7 @@ public class StartScreen extends AppCompatActivity {
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
                         // Set item in checked state
                         menuItem.setChecked(true);
-                        if (menuItem.getItemId() == R.id.maxes_nav){
+                        if (menuItem.getItemId() == R.id.maxes_nav) {
                             Intent intent = new Intent(getBaseContext(), MaxesActivity.class);
                             startActivity(intent);
                         }
@@ -125,23 +143,22 @@ public class StartScreen extends AppCompatActivity {
                 if (detailView.getVisibility() == View.VISIBLE) {
                     expandButton.setAnimation(AnimationUtils.loadAnimation(getBaseContext(), R.anim.rotate_back));
                     detailView.setVisibility(View.GONE);
-                }else {
+                } else {
                     expandButton.setAnimation(AnimationUtils.loadAnimation(getBaseContext(), R.anim.rotate));
                     detailView.setVisibility(View.VISIBLE);
                 }
             }
         });
 
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
     @Override
     public void onResume() {
         super.onResume();
 
-        if (mPrefs.getBoolean("firstRun", true)) {
-            new CreateDatabaseTask().execute(LiftsDbHelper.getInstance(this.getBaseContext()));
-            mPrefs.edit().putBoolean("firstRun", false).apply();
-        }
     }
 
     @Override
@@ -185,5 +202,33 @@ public class StartScreen extends AppCompatActivity {
             }
         }
 
+    }
+
+    private class GetMaxesTask extends AsyncTask<LiftsDbHelper, Integer, Max[]> {
+
+        @Override
+        protected Max[] doInBackground(LiftsDbHelper... helper) {
+            return helper[0].getCurrentMaxes();
+        }
+
+        @Override
+        protected void onPostExecute(Max[] maxes) {
+            if (maxes.length != 0)
+                ((MaxesAdapter) mAdapter).setmMaxes(maxes);
+            else {
+                AlertDialog.Builder builder = new AlertDialog.Builder(StartScreen.this);
+                builder.setTitle("No Maxes defined...");
+                builder.setMessage("We need to calculate your strength.");
+                builder.setCancelable(false);
+                builder.setPositiveButton("Let's go", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        Intent intent = new Intent(getBaseContext(), MaxesActivity.class);
+                        startActivity(intent);
+                    }
+                });
+                builder.create().show();
+            }
+        }
     }
 }
