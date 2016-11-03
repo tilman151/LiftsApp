@@ -1,5 +1,8 @@
 # Created by https://www.gitignore.io/api/android,intellij
 
+# Database files
+*.db
+
 ### Android ###
 # Built application files
 *.apk
