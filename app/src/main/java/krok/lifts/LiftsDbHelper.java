@@ -31,46 +31,47 @@ public class LiftsDbHelper extends SQLiteOpenHelper {
     public static final String SQL_CREATE_LIFTS =
             "CREATE TABLE " + LiftsContract.Lifts.TABLE_NAME + " (" +
                     LiftsContract.Lifts._ID + " INTEGER PRIMARY KEY," +
-                    LiftsContract.Lifts.COLLUMN_NAME_NAME + TEXT_TYPE + COMMA_SEP +
-                    LiftsContract.Lifts.COLLUMN_NAME_REPSCHEME + " INTEGER," +
-                    LiftsContract.Lifts.COLLUMN_NAME_COMPOUND + " INTEGER )";
+                    LiftsContract.Lifts.COLUMN_NAME_NAME + TEXT_TYPE + COMMA_SEP +
+                    LiftsContract.Lifts.COLUMN_NAME_REPSCHEME + " INTEGER," +
+                    LiftsContract.Lifts.COLUMN_NAME_COMPOUND + " INTEGER )";
     public static final String SQL_CREATE_MAXES =
             "CREATE TABLE " + LiftsContract.Maxes.TABLE_NAME + " (" +
                     LiftsContract.Maxes._ID + " INTEGER PRIMARY KEY," +
-                    LiftsContract.Maxes.COLLUMN_NAME_LIFT + " INTEGER," +
-                    LiftsContract.Maxes.COLLUMN_NAME_WEIGHT + " REAL," +
-                    "FOREIGN KEY(" + LiftsContract.Maxes.COLLUMN_NAME_LIFT + ") REFERENCES " + LiftsContract.Lifts.TABLE_NAME + "(" + LiftsContract.Lifts._ID + ") )";
+                    LiftsContract.Maxes.COLUMN_NAME_LIFT + " INTEGER," +
+                    LiftsContract.Maxes.COLUMN_NAME_WEIGHT + " REAL," +
+                    "FOREIGN KEY(" + LiftsContract.Maxes.COLUMN_NAME_LIFT + ") REFERENCES " + LiftsContract.Lifts.TABLE_NAME + "(" + LiftsContract.Lifts._ID + ") )";
     public static final String SQL_CREATE_SETS =
             "CREATE TABLE " + LiftsContract.Sets.TABLE_NAME + " (" +
                     LiftsContract.Sets._ID + " INTEGER PRIMARY KEY," +
-                    LiftsContract.Sets.COLLUMN_NAME_LIFT + " INTEGER," +
-                    LiftsContract.Sets.COLLUMN_NAME_WORKOUT + " INTEGER," +
-                    LiftsContract.Sets.COLLUMN_NAME_ORDER + " INTEGER," +
-                    LiftsContract.Sets.COLLUMN_NAME_REPS + " INTEGER," +
-                    LiftsContract.Sets.COLLUMN_NAME_WEIGHT + " REAL," +
-                    "FOREIGN KEY(" + LiftsContract.Sets.COLLUMN_NAME_LIFT + ") REFERENCES " + LiftsContract.Lifts.TABLE_NAME + "(" + LiftsContract.Lifts._ID + ")," +
-                    "FOREIGN KEY(" + LiftsContract.Sets.COLLUMN_NAME_WORKOUT + ") REFERENCES " + LiftsContract.Workouts.TABLE_NAME + "(" + LiftsContract.Workouts._ID + ") )";
+                    LiftsContract.Sets.COLUMN_NAME_LIFT + " INTEGER," +
+                    LiftsContract.Sets.COLUMN_NAME_WORKOUT + " INTEGER," +
+                    LiftsContract.Sets.COLUMN_NAME_ORDER + " INTEGER," +
+                    LiftsContract.Sets.COLUMN_NAME_REPS + " INTEGER," +
+                    LiftsContract.Sets.COLUMN_NAME_WEIGHT + " REAL," +
+                    "FOREIGN KEY(" + LiftsContract.Sets.COLUMN_NAME_LIFT + ") REFERENCES " + LiftsContract.Lifts.TABLE_NAME + "(" + LiftsContract.Lifts._ID + ")," +
+                    "FOREIGN KEY(" + LiftsContract.Sets.COLUMN_NAME_WORKOUT + ") REFERENCES " + LiftsContract.Workouts.TABLE_NAME + "(" + LiftsContract.Workouts._ID + ") )";
     public static final String SQL_CREATE_WORKOUTS =
             "CREATE TABLE " + LiftsContract.Workouts.TABLE_NAME + " (" +
                     LiftsContract.Workouts._ID + " INTEGER PRIMARY KEY," +
-                    LiftsContract.Workouts.COLLUMN_NAME_DATE + " INTEGER," +
-                    LiftsContract.Workouts.COLLUMN_NAME_CYCLE + " INTEGER," +
-                    LiftsContract.Workouts.COLLUMN_NAME_WEEK + " INTEGER," +
-                    LiftsContract.Workouts.COLLUMN_NAME_DONE + " INTEGER," +
-                    "FOREIGN KEY(" + LiftsContract.Workouts.COLLUMN_NAME_CYCLE + ") REFERENCES " + LiftsContract.Cycles.TABLE_NAME + "(" + LiftsContract.Cycles._ID + ") )";
+                    LiftsContract.Workouts.COLUMN_NAME_DATE + " INTEGER," +
+                    LiftsContract.Workouts.COLUMN_NAME_CYCLE + " INTEGER," +
+                    LiftsContract.Workouts.COLUMN_NAME_WEEK + " INTEGER," +
+                    LiftsContract.Workouts.COLUMN_NAME_DONE + " INTEGER," +
+                    "FOREIGN KEY(" + LiftsContract.Workouts.COLUMN_NAME_CYCLE + ") REFERENCES " + LiftsContract.Cycles.TABLE_NAME + "(" + LiftsContract.Cycles._ID + ") )";
     public static final String SQL_CREATE_CYCLES =
             "CREATE TABLE " + LiftsContract.Cycles.TABLE_NAME + " (" +
                     LiftsContract.Cycles._ID + " INTEGER PRIMARY KEY," +
-                    LiftsContract.Cycles.COLLUMN_NAME_PRESS + " INTEGER," +
-                    LiftsContract.Cycles.COLLUMN_NAME_DEAD + " INTEGER," +
-                    LiftsContract.Cycles.COLLUMN_NAME_BENCH + " INTEGER," +
-                    LiftsContract.Cycles.COLLUMN_NAME_SQUAT + " INTEGER," +
-                    "FOREIGN KEY(" + LiftsContract.Cycles.COLLUMN_NAME_PRESS + ") REFERENCES " + LiftsContract.Maxes.TABLE_NAME + "(" + LiftsContract.Maxes._ID + ")," +
-                    "FOREIGN KEY(" + LiftsContract.Cycles.COLLUMN_NAME_DEAD + ") REFERENCES " + LiftsContract.Maxes.TABLE_NAME + "(" + LiftsContract.Maxes._ID + ")," +
-                    "FOREIGN KEY(" + LiftsContract.Cycles.COLLUMN_NAME_BENCH + ") REFERENCES " + LiftsContract.Maxes.TABLE_NAME + "(" + LiftsContract.Maxes._ID + ")," +
-                    "FOREIGN KEY(" + LiftsContract.Cycles.COLLUMN_NAME_SQUAT + ") REFERENCES " + LiftsContract.Maxes.TABLE_NAME + "(" + LiftsContract.Maxes._ID + " ) )";
+                    LiftsContract.Cycles.COLUMN_NAME_PRESS + " INTEGER," +
+                    LiftsContract.Cycles.COLUMN_NAME_DEAD + " INTEGER," +
+                    LiftsContract.Cycles.COLUMN_NAME_BENCH + " INTEGER," +
+                    LiftsContract.Cycles.COLUMN_NAME_SQUAT + " INTEGER," +
+                    "FOREIGN KEY(" + LiftsContract.Cycles.COLUMN_NAME_PRESS + ") REFERENCES " + LiftsContract.Maxes.TABLE_NAME + "(" + LiftsContract.Maxes._ID + ")," +
+                    "FOREIGN KEY(" + LiftsContract.Cycles.COLUMN_NAME_DEAD + ") REFERENCES " + LiftsContract.Maxes.TABLE_NAME + "(" + LiftsContract.Maxes._ID + ")," +
+                    "FOREIGN KEY(" + LiftsContract.Cycles.COLUMN_NAME_BENCH + ") REFERENCES " + LiftsContract.Maxes.TABLE_NAME + "(" + LiftsContract.Maxes._ID + ")," +
+                    "FOREIGN KEY(" + LiftsContract.Cycles.COLUMN_NAME_SQUAT + ") REFERENCES " + LiftsContract.Maxes.TABLE_NAME + "(" + LiftsContract.Maxes._ID + " ) )";
 
     private final Context mContext;
+    private static boolean mLock = false;
 
     private LiftsDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -87,29 +88,51 @@ public class LiftsDbHelper extends SQLiteOpenHelper {
         if (mHelper == null) {
             mHelper = new LiftsDbHelper(context.getApplicationContext());
         }
+        while (mLock)
+        {
+
+        }
         return mHelper;
     }
 
-    public void createDataBase() throws IOException {
-        if (!existsDataBase()) {
-            this.getReadableDatabase();
-            try {
-                copyDataBase();
-            } catch (IOException e) {
-                throw new Error("Can't copy database");
-            }
+    public Max[] getCurrentMaxes() {
+        SQLiteDatabase db = getReadableDatabase();
+
+        Cursor c = db.query(
+                LiftsContract.MaxesXlifts.VIEW_NAME,                        // FROM
+                new String[] {LiftsContract.MaxesXlifts.COLUMN_NAME_LIFT,  // SELECT
+                        LiftsContract.MaxesXlifts.COLUMN_NAME_WEIGHT,
+                        LiftsContract.MaxesXlifts.COLUMN_NAME_DATE,
+                        LiftsContract.MaxesXlifts.COLUMN_NAME_LIFTID},
+                null,                                                       // WHERE
+                null, // ==
+                LiftsContract.MaxesXlifts.COLUMN_NAME_LIFT,                // GROUP BY
+                "MAX(" + LiftsContract.MaxesXlifts.COLUMN_NAME_DATE + ")", // HAVING
+                LiftsContract.MaxesXlifts.COLUMN_NAME_LIFTID,              // ORDER BY
+                null);                                                      // LIMIT
+
+        c.moveToFirst();
+        Max[] maxes = new Max[c.getCount()];
+
+        for (int i = 0; i < maxes.length; i++) {
+            maxes[i] = new Max(c.getString(0), c.getFloat(1), c.getInt(2));
+            c.moveToNext();
         }
+
+        c.close();
+
+        return maxes;
     }
 
-    private boolean existsDataBase() {
-        SQLiteDatabase db = null;
-
-        File file = new File(DATABASE_PATH + DATABASE_NAME);
-        if (!file.exists()) {
-            Log.d("DATABASE: ", "checkDataBase: DB does not exist");
-            return false;
+    public void createDataBase() throws IOException {
+        mLock = true;
+        this.getReadableDatabase();
+        try {
+            copyDataBase();
+        } catch (IOException e) {
+            throw new Error("Can't copy database");
         }
-        return true;
+        mLock = false;
     }
 
     private void copyDataBase() throws IOException {
