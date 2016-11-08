@@ -1,23 +1,30 @@
 package krok.lifts;
 
+import android.app.Dialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.NavigationView;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.NavUtils;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 
-public class MaxesActivity extends AppCompatActivity {
+import java.io.IOException;
+import java.util.GregorianCalendar;
+
+public class MaxesActivity extends AppCompatActivity implements View.OnClickListener {
 
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -39,8 +46,15 @@ public class MaxesActivity extends AppCompatActivity {
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        // specify an adapter (see also next example)
-        mAdapter = new InputMaxesAdapter(mRecyclerView.getContext());
+        Max[] maxes = null;
+
+        // Check if called from missing maxes dialog
+        if (!getIntent().getBooleanExtra("MISSING_MAXES",false)) {
+            maxes = LiftsDbHelper.getInstance(getApplicationContext()).getCurrentMaxes();
+        }
+
+        // specify an adapter
+        mAdapter = new InputMaxesAdapter(mRecyclerView.getContext(), maxes);
         mRecyclerView.setAdapter(mAdapter);
 
 
@@ -63,13 +77,7 @@ public class MaxesActivity extends AppCompatActivity {
 
         // Set Fab behavior
         FloatingActionButton fab = (FloatingActionButton) this.findViewById(R.id.maxesFab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getBaseContext(), StartScreen.class);
-                startActivity(intent);
-            }
-        });
+        fab.setOnClickListener(this);
 
     }
 
@@ -85,5 +93,58 @@ public class MaxesActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onClick(View v) {
+        ((View) v.getParent()).requestFocus();
+        Max[] changedMaxes = ((InputMaxesAdapter) mAdapter).getChangedMaxes();
+        if (changedMaxes == null) {
+            showErrorDialog();
+            return;
+        }
+        new SaveMaxesTask().execute(changedMaxes);
+        Intent intent = new Intent(getBaseContext(), StartScreen.class);
+        startActivity(intent);
+    }
+
+    private void showErrorDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MaxesActivity.this);
+        builder.setTitle("Error");
+        builder.setMessage("Enter maxes bigger than zero.");
+        builder.setCancelable(false);
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
+            }
+        });
+        builder.create().show();
+    }
+
+    private class SaveMaxesTask extends AsyncTask<Max[], Integer, Boolean> {
+
+        private Dialog dialog = new ProgressDialog(MaxesActivity.this);
+
+        @Override
+        protected void onPreExecute() {
+            this.dialog.setTitle("Saving maxes...");
+            this.dialog.show();
+        }
+
+        @Override
+        protected Boolean doInBackground(Max[]... maxes) {
+            LiftsDbHelper helper = LiftsDbHelper.getInstance(getApplicationContext());
+            helper.saveMaxes(maxes[0]);
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            if (this.dialog.isShowing()) {
+                this.dialog.dismiss();
+            }
+        }
+
     }
 }

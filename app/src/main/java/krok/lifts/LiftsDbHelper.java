@@ -124,6 +124,36 @@ public class LiftsDbHelper extends SQLiteOpenHelper {
         return maxes;
     }
 
+    public void saveMaxes(Max[] maxes) {
+        SQLiteDatabase db = getWritableDatabase();
+        Cursor c = db.query(
+                LiftsContract.Lifts.TABLE_NAME,
+                new String[] {LiftsContract.Lifts._ID},
+                LiftsContract.Lifts.COLUMN_NAME_COMPOUND + " == ?",
+                new String[] {"1"},
+                null,
+                null,
+                LiftsContract.Lifts._ID,
+                "4");
+        c.moveToFirst();
+        int id;
+        for (int i = 0; i < maxes.length; i++) {
+            id = c.getInt(0);
+            c.moveToNext();
+            if (maxes[i] != null)
+                db.execSQL("INSERT INTO " + LiftsContract.Maxes.TABLE_NAME + " (" +
+                    LiftsContract.Maxes.COLUMN_NAME_DATE + "," +
+                    LiftsContract.Maxes.COLUMN_NAME_LIFT + "," +
+                    LiftsContract.Maxes.COLUMN_NAME_WEIGHT + ")" +
+                    " VALUES (" +
+                    maxes[i].getDate().getTime() + ",'" +
+                    id + "'," +
+                    maxes[i].calculateMax() +
+                    ");");
+        }
+
+    }
+
     public void createDataBase() throws IOException {
         mLock = true;
         this.getReadableDatabase();

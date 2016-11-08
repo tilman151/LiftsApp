@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.StringTokenizer;
 
 /**
@@ -21,7 +22,7 @@ import java.util.StringTokenizer;
 public class MaxesAdapter extends android.support.v7.widget.RecyclerView.Adapter<MaxesAdapter.ViewHolder> {
 
     private final String[] mLifts;
-    private Max[] mMaxes;
+    private  Max[] mMaxes;
     private final Drawable[] mImages;
 
     public MaxesAdapter(Context context, Max[] maxes){
@@ -59,12 +60,8 @@ public class MaxesAdapter extends android.support.v7.widget.RecyclerView.Adapter
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-        //holder.mTextView.setText(mLifts[position % mLifts.length]);
-        //holder.mMaxText.setText(Integer.toString(max) + "kg");
-
         holder.mTextView.setText(mMaxes[position].getLift());
-        String maxString = mMaxes[position].getWeight() + " kg";
-        holder.mMaxText.setText(maxString);
+        holder.mMaxText.setText(String.format(new Locale("en","us"),"%s kg",mMaxes[position].calculateMax()));
 
         holder.mImageView.setImageDrawable(mImages[position % mImages.length]);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -82,7 +79,7 @@ public class MaxesAdapter extends android.support.v7.widget.RecyclerView.Adapter
         return (mMaxes == null)? 0 : mMaxes.length;
     }
 
-    public void setmMaxes(Max[] maxes) {
+    public void setMaxes(Max[] maxes) {
         mMaxes = maxes;
     }
 }

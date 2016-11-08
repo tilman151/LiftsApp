@@ -214,7 +214,7 @@ public class StartScreen extends AppCompatActivity {
         @Override
         protected void onPostExecute(Max[] maxes) {
             if (maxes.length != 0)
-                ((MaxesAdapter) mAdapter).setmMaxes(maxes);
+                ((MaxesAdapter) mAdapter).setMaxes(maxes);
             else {
                 AlertDialog.Builder builder = new AlertDialog.Builder(StartScreen.this);
                 builder.setTitle("No Maxes defined...");
@@ -224,6 +224,7 @@ public class StartScreen extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
                         Intent intent = new Intent(getBaseContext(), MaxesActivity.class);
+                        intent.putExtra("MISSING_MAXES",true);
                         startActivity(intent);
                     }
                 });

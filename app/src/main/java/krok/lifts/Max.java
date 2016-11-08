@@ -1,6 +1,9 @@
 package krok.lifts;
 
+import android.widget.EditText;
+
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 /**
  * Created by tilman on 01.11.16.
@@ -9,26 +12,53 @@ import java.util.Date;
 public class Max {
 
     private String mLift;
-    private float mWeight;
+    private double mWeight;
+    private int mReps;
     private Date mDate;
 
-    public Max(String lift, float weight, int date) {
+    public Max(String lift) {
+        mLift = lift;
+        mWeight = -1;
+        mReps = 1;
+        mDate = GregorianCalendar.getInstance().getTime();
+    }
+
+    public Max(String lift, double weight, long date) {
         mLift = lift;
         mWeight = weight;
+        mReps = 1;
         mDate = new Date(date);
     }
 
-    public Max(String lift, float weight, int reps, int date) {
+    public Max(String lift, double weight, int reps, long date) {
         mLift = lift;
-        mWeight = calculateMax(weight, reps);
+        mWeight = weight;
+        mReps = reps;
         mDate = new Date(date);
+
+    }
+
+    public void setLift(String lift) {
+        mLift = lift;
+    }
+
+    public void setWeight(double weight) {
+        mWeight = weight;
+    }
+
+    public void setReps(int reps) {
+        mReps = reps;
     }
 
     public String getLift() {
         return mLift;
     }
 
-    public float getWeight() {
+    public int getReps() {
+        return mReps;
+    }
+
+    public double getWeight() {
         return mWeight;
     }
 
@@ -36,20 +66,16 @@ public class Max {
         return mDate;
     }
 
-    public String toSQL() {
-        return "INSERT INTO " + LiftsContract.Maxes.TABLE_NAME + " (" +
-                LiftsContract.Maxes.COLUMN_NAME_DATE +
-                LiftsContract.Maxes.COLUMN_NAME_LIFT +
-                LiftsContract.Maxes.COLUMN_NAME_WEIGHT +
-                " VALUES (" +
-                mDate + "," +
-                mLift + "," +
-                mWeight +
-                ");";
+    public double calculateMax() {
+        double maxWeight = (mReps == 1)? mWeight : mWeight * mReps * 0.0333 + mWeight;
+        return Math.round(maxWeight*100)/100;
     }
 
-    private float calculateMax(float weight, int reps) {
-        return 0;
+    public static Max[] getArray(String[] lifts) {
+        Max[] result = new Max[lifts.length];
+        for (int i = 0; i < lifts.length; i++) {
+            result[i] = new Max(lifts[i]);
+        }
+        return result;
     }
-
 }

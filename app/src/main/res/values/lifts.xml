@@ -2,9 +2,9 @@
 <resources>
 
     <array name="compound">
-        <item>Press</item>
-        <item>Dead</item>
-        <item>Bench</item>
+        <item>Overhead Press</item>
+        <item>Deadlift</item>
+        <item>Bench Press</item>
         <item>Squat</item>
     </array>
 
